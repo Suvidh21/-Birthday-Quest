@@ -1,0 +1,1033 @@
+/* ==========================================================================
+   HOGWARTS BIRTHDAY QUEST - STYLESHEET
+   Dedicated to Akshi (Bauni Badmash, Leader of Bauni Samajh)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --gold-primary: #f5d061;
+    --gold-glow: #ffdf79;
+    --gold-dark: #b8860b;
+    --gryffindor-red: #740001;
+    --gryffindor-dark: #4a0000;
+    --parchment-bg: #f9f2e7;
+    --parchment-dark: #e8d9c5;
+    --ink-dark: #2b1e16;
+    --dark-bg: #0a0d14;
+    --hud-glass: rgba(12, 16, 26, 0.92);
+    --hud-border: rgba(245, 208, 97, 0.45);
+    --magic-cyan: #00f2fe;
+    --magic-purple: #9d50bb;
+    --font-heading: 'Cinzel Decorative', 'Cinzel', serif;
+    --font-subheading: 'Cinzel', serif;
+    --font-body: 'Outfit', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--dark-bg);
+    color: #fff;
+    font-family: var(--font-body);
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 28 L28 4 L25 1 L1 25 Z' fill='%23f5d061' stroke='%23ffffff' stroke-width='1'/%3E%3Ccircle cx='28' cy='4' r='3' fill='%23ffffff'/%3E%3C/svg%3E") 0 28, auto;
+}
+
+/* Custom Wand Sparkle Canvas Overlay */
+#wand-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Audio Toggle Button */
+.audio-control-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--hud-glass);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-primary);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-family: var(--font-subheading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 208, 97, 0.2);
+    transition: all 0.3s ease;
+}
+
+.audio-control-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(245, 208, 97, 0.25);
+    box-shadow: 0 6px 25px rgba(245, 208, 97, 0.5);
+}
+
+/* Floating Stage Navigation Controls (Left & Right Arrows) */
+.stage-nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1200;
+    background: var(--hud-glass);
+    border: 2px solid var(--gold-primary);
+    color: var(--gold-glow);
+    font-family: var(--font-subheading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(245, 208, 97, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stage-nav-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    background: linear-gradient(135deg, var(--gryffindor-red), #900);
+    box-shadow: 0 0 35px var(--gold-primary);
+    color: #fff;
+}
+
+#nav-btn-prev { left: 20px; }
+#nav-btn-next { right: 20px; }
+
+/* WELCOME SCREEN */
+#welcome-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: radial-gradient(circle at center, #180d29 0%, #06080e 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#welcome-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.welcome-layout {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 950px;
+    width: 95%;
+    background: rgba(15, 12, 24, 0.92);
+    border: 2px solid var(--gold-primary);
+    border-radius: 28px;
+    padding: 2.5rem;
+    box-shadow: 0 0 60px rgba(116, 0, 1, 0.5), inset 0 0 30px rgba(245, 208, 97, 0.15);
+    backdrop-filter: blur(20px);
+    position: relative;
+}
+
+.dumbledore-portrait-side {
+    flex-shrink: 0;
+    width: 260px;
+    text-align: center;
+}
+
+.dumbledore-welcome-img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 25px rgba(245, 208, 97, 0.4));
+    animation: gentleGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes gentleGlow {
+    0% { filter: drop-shadow(0 0 15px rgba(245, 208, 97, 0.3)); }
+    100% { filter: drop-shadow(0 0 35px rgba(245, 208, 97, 0.6)); }
+}
+
+.dumbledore-tag {
+    font-family: var(--font-subheading);
+    font-size: 0.85rem;
+    color: var(--gold-glow);
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+.welcome-letter-side {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--gold-primary);
+    text-shadow: 0 0 15px rgba(245, 208, 97, 0.5);
+    margin-bottom: 0.4rem;
+}
+
+.welcome-subtitle {
+    font-family: var(--font-subheading);
+    font-size: 1.1rem;
+    color: #e0d0b0;
+    margin-bottom: 1.2rem;
+}
+
+.typewriter-paper {
+    background: rgba(249, 242, 231, 0.95);
+    border: 1px solid var(--gold-dark);
+    border-radius: 14px;
+    padding: 1.5rem;
+    color: var(--ink-dark);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    box-shadow: inset 0 0 15px rgba(184, 134, 11, 0.2);
+    min-height: 140px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.typewriter-text {
+    white-space: pre-wrap;
+    border-right: 2px solid var(--gryffindor-red);
+    animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+    50% { border-color: transparent; }
+}
+
+.btn-magical {
+    background: linear-gradient(135deg, var(--gryffindor-red) 0%, #a30000 100%);
+    border: 2px solid var(--gold-primary);
+    color: var(--gold-primary);
+    font-family: var(--font-subheading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(116, 0, 1, 0.6), 0 0 10px rgba(245, 208, 97, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    align-self: flex-start;
+}
+
+.btn-magical:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 35px rgba(245, 208, 97, 0.8);
+    color: #fff;
+}
+
+/* ==========================================================================
+   GAME HORIZONTAL CANVAS & STAGE BACKGROUND FIT
+   ========================================================================== */
+#game-viewport {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden; /* Scroll controlled by script smoothly */
+    overflow-y: hidden;
+}
+
+.horizontal-world {
+    display: flex;
+    width: 600vw;
+    height: 100vh;
+    position: relative;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+}
+
+.hogwarts-scene {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#scene-courtyard { background-image: url('courtyard_bg.png'); }
+#scene-great-hall { background-image: url('great_hall_bg.png'); }
+#scene-library { background-image: url('library_bg.png'); }
+#scene-dungeon { background-image: url('dungeon_bg.png'); }
+#scene-astronomy { background-image: url('astronomy_bg.png'); }
+#scene-common-room { background-image: url('hogsmeade_.jpg'); }
+
+.scene-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scene-title-tag {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 13, 20, 0.88);
+    border: 1px solid var(--hud-border);
+    padding: 6px 22px;
+    border-radius: 20px;
+    font-family: var(--font-subheading);
+    font-size: 0.95rem;
+    color: var(--gold-glow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    z-index: 3;
+}
+
+.scene-objects {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+}
+
+/* Quest Artifacts */
+.quest-item-target {
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 25;
+}
+
+.quest-item-target .item-icon {
+    font-size: 3.4rem;
+    filter: drop-shadow(0 0 18px var(--gold-primary)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.9));
+    animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.quest-item-target .item-label {
+    background: linear-gradient(135deg, var(--gryffindor-red), #900);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-primary);
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-top: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.quest-item-target:hover { transform: scale(1.25); }
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Character Fillers with SVG Portraits */
+.filler-character {
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+    z-index: 20;
+}
+
+.filler-character .char-svg-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--gold-primary);
+    box-shadow: 0 0 25px rgba(245, 208, 97, 0.6), 0 6px 15px rgba(0, 0, 0, 0.8);
+    animation: charIdle 4s ease-in-out infinite;
+    background: #1a1020;
+}
+
+.filler-character .char-svg-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.filler-character .char-badge {
+    background: rgba(12, 16, 26, 0.95);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-glow);
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-top: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+}
+
+.filler-character:hover { transform: scale(1.18); }
+
+@keyframes charIdle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* Secret Lore Scrolls */
+.trivia-scroll {
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 22;
+    transition: transform 0.3s ease;
+}
+
+.trivia-scroll .scroll-icon {
+    font-size: 2.3rem;
+    filter: drop-shadow(0 0 15px var(--magic-cyan));
+    animation: scrollGlow 2s ease-in-out infinite alternate;
+}
+
+.trivia-scroll .scroll-label {
+    background: rgba(0, 45, 55, 0.9);
+    border: 1px solid var(--magic-cyan);
+    color: var(--magic-cyan);
+    font-family: var(--font-subheading);
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-top: 3px;
+    white-space: nowrap;
+}
+
+.trivia-scroll:hover { transform: scale(1.2); }
+
+@keyframes scrollGlow {
+    0% { filter: drop-shadow(0 0 8px var(--magic-cyan)); }
+    100% { filter: drop-shadow(0 0 22px #ffffff); }
+}
+
+#golden-chest-container {
+    position: absolute;
+    bottom: 20%;
+    right: 18%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.golden-chest {
+    font-size: 5.5rem;
+    filter: drop-shadow(0 0 30px var(--gold-primary));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: chestPulse 2.5s ease-in-out infinite alternate;
+}
+
+#golden-chest-container:hover .golden-chest {
+    transform: scale(1.15) rotate(-3deg);
+    filter: drop-shadow(0 0 45px #ffffff);
+}
+
+.chest-lock-badge {
+    background: linear-gradient(135deg, var(--gryffindor-red), #900);
+    border: 2px solid var(--gold-primary);
+    color: var(--gold-primary);
+    font-family: var(--font-subheading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
+}
+
+@keyframes chestPulse {
+    0% { filter: drop-shadow(0 0 15px var(--gold-primary)); }
+    100% { filter: drop-shadow(0 0 35px var(--gold-glow)); }
+}
+
+/* HUD Overlay Elements */
+#hud-task-card {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--hud-glass);
+    border: 1.5px solid var(--hud-border);
+    border-radius: 16px;
+    padding: 14px 20px;
+    max-width: 320px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(245, 208, 97, 0.1);
+}
+
+.hud-task-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    color: var(--gold-primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.hud-task-title {
+    font-family: var(--font-subheading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.hud-task-desc {
+    font-size: 0.85rem;
+    color: #c4b69c;
+    line-height: 1.4;
+}
+
+#hud-inventory-bar {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: var(--hud-glass);
+    border: 2px solid var(--hud-border);
+    border-radius: 40px;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(245, 208, 97, 0.15);
+}
+
+.inventory-slot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(10, 13, 20, 0.8);
+    border: 1.5px dashed rgba(245, 208, 97, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: rgba(245, 208, 97, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    cursor: pointer;
+}
+
+.inventory-slot.collected {
+    border: 2px solid var(--gold-primary);
+    background: radial-gradient(circle, var(--gryffindor-red) 0%, #300 100%);
+    color: #fff;
+    box-shadow: 0 0 18px var(--gold-primary);
+    animation: slotUnlock 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slotUnlock {
+    0% { transform: scale(0.5) rotate(-20deg); }
+    70% { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+.inventory-slot:hover .slot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-8px);
+}
+
+.slot-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(15, 10, 25, 0.95);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-glow);
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+#dumbledore-card-overlay {
+    position: fixed;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    width: 90%;
+    max-width: 620px;
+    background: var(--hud-glass);
+    border: 2px solid var(--gold-primary);
+    border-radius: 24px;
+    padding: 18px 24px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 208, 97, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: all 0.4s ease;
+}
+
+#dumbledore-card-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(40px);
+    pointer-events: none;
+}
+
+.dumbledore-avatar-box {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--gold-primary);
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(245, 208, 97, 0.4);
+}
+
+.dumbledore-avatar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dumbledore-content { flex-grow: 1; }
+
+.transmission-header {
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    color: var(--gold-glow);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.dumbledore-name {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--gold-primary);
+    margin-bottom: 4px;
+}
+
+.dumbledore-dialogue {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: #ece3d4;
+    min-height: 40px;
+}
+
+.dumbledore-action-btn {
+    background: linear-gradient(135deg, var(--gryffindor-red), #900);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-glow);
+    font-family: var(--font-subheading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s ease;
+}
+
+.dumbledore-action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--gold-primary);
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    background: rgba(5, 7, 12, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-card {
+    background: rgba(18, 15, 28, 0.95);
+    border: 2px solid var(--gold-primary);
+    border-radius: 24px;
+    padding: 2.2rem 2rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(245, 208, 97, 0.3);
+    position: relative;
+    transform: scale(0.85);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-card { transform: scale(1); }
+
+.modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--gold-primary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: transform 0.2s ease;
+}
+
+.modal-close-btn:hover { transform: scale(1.2) rotate(90deg); }
+
+.modal-char-svg-wrapper {
+    width: 220px;
+    height: 280px;
+    margin: 0 auto 1rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid var(--gold-primary);
+    box-shadow: 0 0 25px rgba(245, 208, 97, 0.4);
+}
+
+.modal-icon-header {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px var(--gold-primary));
+}
+
+.modal-tag {
+    font-family: var(--font-subheading);
+    font-size: 0.8rem;
+    color: var(--gold-glow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.7rem;
+    color: var(--gold-primary);
+    margin-bottom: 1rem;
+}
+
+.modal-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #dfd5c6;
+    margin-bottom: 1.8rem;
+}
+
+/* ACCEPTANCE LETTER MODAL */
+#letter-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6000;
+    background: rgba(5, 5, 10, 0.92);
+    backdrop-filter: blur(16px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+#letter-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.letter-container {
+    background: var(--parchment-bg);
+    background-image: radial-gradient(#e0cfb3 1px, transparent 0);
+    background-size: 24px 24px;
+    border: 6px double var(--gold-dark);
+    border-radius: 12px;
+    padding: 2rem 2rem;
+    max-width: 750px;
+    width: 100%;
+    color: var(--ink-dark);
+    box-shadow: 0 0 60px rgba(245, 208, 97, 0.6), inset 0 0 30px rgba(184, 134, 11, 0.2);
+    position: relative;
+    margin: auto 0;
+    transform: translateY(30px) scale(0.9);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#letter-modal-overlay.active .letter-container { transform: translateY(0) scale(1); }
+
+.letter-header-crest {
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+
+.letter-crest-icon {
+    font-size: 2.8rem;
+    filter: drop-shadow(0 4px 10px rgba(116, 0, 1, 0.3));
+}
+
+.letter-school-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    color: var(--gryffindor-red);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+}
+
+.letter-school-sub {
+    font-family: var(--font-subheading);
+    font-size: 0.8rem;
+    color: #665235;
+    letter-spacing: 2px;
+}
+
+.letter-divider {
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold-dark), transparent);
+    margin: 0.8rem 0;
+}
+
+.letter-salutation {
+    font-family: var(--font-subheading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gryffindor-red);
+    margin-bottom: 0.6rem;
+}
+
+.letter-salutation span {
+    color: #000;
+    border-bottom: 2px solid var(--gold-dark);
+}
+
+.letter-body-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #2b1e16;
+    margin-bottom: 1rem;
+}
+
+.letter-wishes-box {
+    background: rgba(116, 0, 1, 0.06);
+    border: 1.5px dashed var(--gryffindor-red);
+    border-radius: 12px;
+    padding: 0.9rem;
+    margin: 0.8rem 0;
+    text-align: center;
+}
+
+.wishes-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--gryffindor-red);
+    margin-bottom: 0.3rem;
+}
+
+.wishes-content {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #1a100a;
+}
+
+.enclosure-section-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--gryffindor-red);
+    text-align: center;
+    margin: 1rem 0 0.8rem 0;
+}
+
+.photo-attachments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.attached-photo-card {
+    background: #fff;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.attached-photo-card:hover {
+    transform: translateY(-4px) scale(1.03) rotate(1deg);
+    box-shadow: 0 10px 22px rgba(116, 0, 1, 0.3);
+}
+
+.attached-photo-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.attached-photo-info {
+    padding: 6px 8px;
+    background: #fdfaf3;
+    text-align: center;
+}
+
+.attached-photo-title {
+    font-family: var(--font-subheading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gryffindor-red);
+    margin-bottom: 2px;
+}
+
+.attached-photo-caption {
+    font-size: 0.65rem;
+    color: #554433;
+}
+
+#lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+#lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border: 3px solid var(--gold-primary);
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(245, 208, 97, 0.5);
+    object-fit: contain;
+}
+
+.lightbox-caption {
+    margin-top: 15px;
+    font-family: var(--font-subheading);
+    font-size: 1.1rem;
+    color: var(--gold-primary);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.letter-signature-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 1.2rem;
+}
+
+.letter-signature {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 0.95rem;
+    color: var(--gryffindor-red);
+}
+
+.letter-wax-seal {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #a30000 0%, #4a0000 100%);
+    border: 2px solid var(--gold-primary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: var(--gold-primary);
+}
+
+#confetti-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 7000;
+}
+
+@media (max-width: 850px) {
+    .welcome-layout { flex-direction: column; text-align: center; padding: 1.5rem; }
+    .dumbledore-portrait-side { width: 180px; }
+    .btn-magical { align-self: center; }
+    #hud-task-card { top: 10px; left: 10px; max-width: 240px; padding: 10px; }
+    #dumbledore-card-overlay { bottom: 85px; padding: 12px; gap: 10px; }
+    .dumbledore-avatar-box { width: 55px; height: 55px; }
+    .letter-container { padding: 1.8rem 1.2rem; }
+    .photo-attachments-grid { grid-template-columns: 1fr; }
+    .stage-nav-btn { font-size: 0.9rem; padding: 10px 12px; }
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshi's Hogwarts Birthday Quest ⚡ | Gryffindor Acceptance</title>
+    <meta name="description" content="A magical Hogwarts birthday adventure for Akshi (Bauni Badmash, Leader of Bauni Samajh). Collect hidden artifacts across Hogwarts, meet fellow wizards, and unlock your Gryffindor Acceptance Letter!">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Wand Lumos Sparkle Cursor Canvas -->
+    <canvas id="wand-canvas"></canvas>
+
+    <!-- Background Audio Toggle -->
+    <button id="audio-toggle-btn" class="audio-control-btn" onclick="toggleAudio()">
+        <span id="audio-icon">🎵</span> <span id="audio-label">Music: OFF</span>
+    </button>
+
+    <!-- Stage Navigation Control Buttons -->
+    <button id="nav-btn-prev" class="stage-nav-btn" onclick="navPrevScene()">◀ Prev Room</button>
+    <button id="nav-btn-next" class="stage-nav-btn" onclick="navNextScene()">Next Room ▶</button>
+
+    <!-- Redesigned Welcome Screen -->
+    <section id="welcome-screen">
+        <div class="welcome-layout">
+            <div class="dumbledore-portrait-side">
+                <img src="dumbledore_portrait.png" alt="Headmaster Albus Dumbledore" class="dumbledore-welcome-img">
+                <div class="dumbledore-tag">Headmaster Albus Dumbledore</div>
+            </div>
+
+            <div class="welcome-letter-side">
+                <h1 class="welcome-title">HOGWARTS QUEST</h1>
+                <p class="welcome-subtitle">A Magical Birthday Request for <span style="color: var(--gold-glow); font-weight:700;">AKSHI</span></p>
+
+                <div class="typewriter-paper">
+                    <span id="welcome-typewriter-text" class="typewriter-text"></span>
+                </div>
+
+                <button class="btn-magical" onclick="startHogwartsQuest()">Accept Dumbledore's Request & Begin ✨</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Left HUD Task Card Overlay -->
+    <div id="hud-task-card">
+        <div class="hud-task-header">
+            <span>⚡ HOGWARTS QUEST</span> • <span id="hud-scene-tag">COURTYARD</span>
+        </div>
+        <div class="hud-task-title" id="hud-task-title">Find the 6 Lost Relics</div>
+        <div class="hud-task-desc" id="hud-task-desc">
+            Scroll or click Next/Prev room. Click on hidden relics to collect them!
+        </div>
+    </div>
+
+    <!-- Main Horizontal Game Viewport -->
+    <main id="game-viewport">
+        <div class="horizontal-world" id="horizontal-world">
+
+            <!-- SCENE 0: HOGWARTS COURTYARD -->
+            <section class="hogwarts-scene" id="scene-courtyard">
+                <canvas class="scene-canvas" id="canvas-courtyard"></canvas>
+                <div class="scene-title-tag">1. The Hogwarts Courtyard</div>
+                <div class="scene-objects">
+                    <!-- Collectible 1: Golden Snitch -->
+                    <div class="quest-item-target" style="top: 35%; left: 72%;" onclick="collectItem('snitch')">
+                        <div class="item-icon">⚡</div>
+                        <div class="item-label">Golden Snitch</div>
+                    </div>
+                    <!-- Filler Character: Hagrid -->
+                    <div class="filler-character" style="bottom: 18%; left: 22%;" onclick="interactFiller('hagrid')">
+                        <div class="char-svg-box" id="avatar-hagrid"></div>
+                        <div class="char-badge">Hagrid</div>
+                    </div>
+                    <!-- Trivia Scroll 1 -->
+                    <div class="trivia-scroll" style="bottom: 35%; left: 45%;" onclick="showTrivia('trivia_kitchen')">
+                        <div class="scroll-icon">🔮</div>
+                        <div class="scroll-label">Secret Mystery</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 1: THE GREAT HALL -->
+            <section class="hogwarts-scene" id="scene-great-hall">
+                <canvas class="scene-canvas" id="canvas-great-hall"></canvas>
+                <div class="scene-title-tag">2. The Great Hall</div>
+                <div class="scene-objects">
+                    <!-- Collectible 2: Sorting Hat -->
+                    <div class="quest-item-target" style="top: 52%; left: 45%;" onclick="collectItem('sorting_hat')">
+                        <div class="item-icon">🎩</div>
+                        <div class="item-label">Sorting Hat</div>
+                    </div>
+                    <!-- Filler Character: Dobby -->
+                    <div class="filler-character" style="bottom: 20%; left: 18%;" onclick="interactFiller('dobby')">
+                        <div class="char-svg-box" id="avatar-dobby"></div>
+                        <div class="char-badge">Dobby</div>
+                    </div>
+                    <!-- Trivia Scroll 2 -->
+                    <div class="trivia-scroll" style="top: 28%; left: 78%;" onclick="showTrivia('trivia_peeves')">
+                        <div class="scroll-icon">⚡</div>
+                        <div class="scroll-label">Castle Lore</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 2: RESTRICTED LIBRARY -->
+            <section class="hogwarts-scene" id="scene-library">
+                <canvas class="scene-canvas" id="canvas-library"></canvas>
+                <div class="scene-title-tag">3. Restricted Library Section</div>
+                <div class="scene-objects">
+                    <!-- Collectible 3: Marauder's Map -->
+                    <div class="quest-item-target" style="top: 50%; left: 68%;" onclick="collectItem('marauders_map')">
+                        <div class="item-icon">📜</div>
+                        <div class="item-label">Marauder's Map</div>
+                    </div>
+                    <!-- Filler Character: Hermione -->
+                    <div class="filler-character" style="bottom: 22%; left: 28%;" onclick="interactFiller('hermione')">
+                        <div class="char-svg-box" id="avatar-hermione"></div>
+                        <div class="char-badge">Hermione</div>
+                    </div>
+                    <!-- Trivia Scroll 3 -->
+                    <div class="trivia-scroll" style="bottom: 38%; left: 14%;" onclick="showTrivia('trivia_room_requirement')">
+                        <div class="scroll-icon">🚪</div>
+                        <div class="scroll-label">Hidden Secret</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 3: POTIONS DUNGEON -->
+            <section class="hogwarts-scene" id="scene-dungeon">
+                <canvas class="scene-canvas" id="canvas-dungeon"></canvas>
+                <div class="scene-title-tag">4. Potions Dungeon</div>
+                <div class="scene-objects">
+                    <!-- Collectible 4: Felix Felicis -->
+                    <div class="quest-item-target" style="top: 58%; left: 48%;" onclick="collectItem('felix_felicis')">
+                        <div class="item-icon">🧪</div>
+                        <div class="item-label">Felix Felicis</div>
+                    </div>
+                    <!-- Filler Character: Snape -->
+                    <div class="filler-character" style="bottom: 20%; left: 72%;" onclick="interactFiller('snape')">
+                        <div class="char-svg-box" id="avatar-snape"></div>
+                        <div class="char-badge">Prof. Snape</div>
+                    </div>
+                    <!-- Trivia Scroll 4 -->
+                    <div class="trivia-scroll" style="top: 32%; left: 22%;" onclick="showTrivia('trivia_hufflepuff')">
+                        <div class="scroll-icon">🛢️</div>
+                        <div class="scroll-label">House Password</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 4: ASTRONOMY TOWER -->
+            <section class="hogwarts-scene" id="scene-astronomy">
+                <canvas class="scene-canvas" id="canvas-astronomy"></canvas>
+                <div class="scene-title-tag">5. Astronomy Tower</div>
+                <div class="scene-objects">
+                    <!-- Collectible 5: Elder Wand -->
+                    <div class="quest-item-target" style="top: 48%; left: 58%;" onclick="collectItem('elder_wand')">
+                        <div class="item-icon">🪄</div>
+                        <div class="item-label">Elder Wand</div>
+                    </div>
+                    <!-- Filler Character: Luna -->
+                    <div class="filler-character" style="bottom: 20%; left: 22%;" onclick="interactFiller('luna')">
+                        <div class="char-svg-box" id="avatar-luna"></div>
+                        <div class="char-badge">Luna Lovegood</div>
+                    </div>
+                    <!-- Trivia Scroll 5 -->
+                    <div class="trivia-scroll" style="top: 42%; left: 82%;" onclick="showTrivia('trivia_ravenclaw')">
+                        <div class="scroll-icon">🦅</div>
+                        <div class="scroll-label">Eagle Riddle</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 5: GRYFFINDOR COMMON ROOM & CHEST -->
+            <section class="hogwarts-scene" id="scene-common-room">
+                <canvas class="scene-canvas" id="canvas-common-room"></canvas>
+                <div class="scene-title-tag">6. Gryffindor Common Room</div>
+                <div class="scene-objects">
+                    <!-- Collectible 6: Gryffindor Crest Key -->
+                    <div class="quest-item-target" style="top: 38%; left: 32%;" onclick="collectItem('gryffindor_crest')">
+                        <div class="item-icon">🦁</div>
+                        <div class="item-label">Gryffindor Key</div>
+                    </div>
+                    <!-- Filler Character: Ron -->
+                    <div class="filler-character" style="bottom: 20%; left: 15%;" onclick="interactFiller('ron')">
+                        <div class="char-svg-box" id="avatar-ron"></div>
+                        <div class="char-badge">Ron Weasley</div>
+                    </div>
+                    <!-- Trivia Scroll 6 -->
+                    <div class="trivia-scroll" style="top: 26%; left: 55%;" onclick="showTrivia('trivia_dumbledore')">
+                        <div class="scroll-icon">🍋</div>
+                        <div class="scroll-label">Headmaster Sweet</div>
+                    </div>
+                    <!-- Golden Gryffindor Locked Chest -->
+                    <div id="golden-chest-container" onclick="attemptChestOpen()">
+                        <div class="golden-chest" id="chest-icon">🔒🎁</div>
+                        <div class="chest-lock-badge" id="chest-status-badge">Locked (Collect 6 Items)</div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Bottom Center Floating Inventory Bar -->
+    <nav id="hud-inventory-bar">
+        <div class="inventory-slot" id="slot-0"><span class="slot-icon">?</span><div class="slot-tooltip">Golden Snitch</div></div>
+        <div class="inventory-slot" id="slot-1"><span class="slot-icon">?</span><div class="slot-tooltip">Sorting Hat</div></div>
+        <div class="inventory-slot" id="slot-2"><span class="slot-icon">?</span><div class="slot-tooltip">Marauder's Map</div></div>
+        <div class="inventory-slot" id="slot-3"><span class="slot-icon">?</span><div class="slot-tooltip">Felix Felicis</div></div>
+        <div class="inventory-slot" id="slot-4"><span class="slot-icon">?</span><div class="slot-tooltip">Elder Wand</div></div>
+        <div class="inventory-slot" id="slot-5"><span class="slot-icon">?</span><div class="slot-tooltip">Gryffindor Key</div></div>
+    </nav>
+
+    <!-- Dumbledore Transmission Card Overlay -->
+    <div id="dumbledore-card-overlay">
+        <div class="dumbledore-avatar-box">
+            <img src="dumbledore_portrait.png" alt="Headmaster Dumbledore">
+        </div>
+        <div class="dumbledore-content">
+            <div class="transmission-header">✨ Headmaster Guidance Transmission</div>
+            <div class="dumbledore-name">Professor Albus Dumbledore</div>
+            <div class="dumbledore-dialogue" id="dumbledore-text-body">
+                "Welcome to Hogwarts, Akshi! Scroll or click Next Room to collect all 6 lost relics."
+            </div>
+            <button class="dumbledore-action-btn" onclick="nextDumbledoreDialogue()">Understood, Headmaster!</button>
+        </div>
+    </div>
+
+    <!-- General Popup Modal -->
+    <div id="general-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeModal('general-modal')">✕</button>
+            <div id="modal-char-svg-wrapper" class="modal-char-svg-wrapper" style="display: none;"></div>
+            <div class="modal-icon-header" id="modal-icon">✨</div>
+            <div class="modal-tag" id="modal-tag">HOGWARTS DISCOVERY</div>
+            <h2 class="modal-title" id="modal-title">Item Title</h2>
+            <div class="modal-body" id="modal-body">Modal body text content...</div>
+            <button class="btn-magical" style="padding: 10px 28px; font-size: 0.95rem;" onclick="closeModal('general-modal')">Continue Quest ✨</button>
+        </div>
+    </div>
+
+    <!-- Grand Birthday Reveal: Hogwarts Acceptance Letter Modal -->
+    <div id="letter-modal-overlay">
+        <div class="letter-container">
+            <div class="letter-header-crest">
+                <div class="letter-crest-icon">🦁🏰✨</div>
+                <div class="letter-school-title">Hogwarts School of Witchcraft and Wizardry</div>
+                <div class="letter-school-sub">HEADMASTER: ALBUS DUMBLEDORE</div>
+            </div>
+
+            <div class="letter-divider"></div>
+
+            <div class="letter-salutation">
+                Dear <span id="letter-recipient-name">AKSHI CHHANGANI</span>,
+            </div>
+
+            <div class="letter-body-text">
+                <p style="margin-bottom: 1rem;">
+                    We are thrilled to inform you that you have been granted immediate entry into <strong>Gryffindor House</strong> on this most extraordinary day!
+                </p>
+                <p>
+                    By official decree of Hogwarts, you are hereby recognized as:
+                    <br>
+                    <strong style="color: var(--gryffindor-red); font-size: 1.15rem;" id="letter-recipient-title">
+                        "BAUNI BADMASH — SUPREME LEADER OF THE BAUNI SAMAJH"
+                    </strong>
+                </p>
+            </div>
+
+            <div class="letter-wishes-box">
+                <div class="wishes-title">✨ Happy Birthday Wishes ✨</div>
+                <div class="wishes-content" id="letter-wishes-content">
+                    Wishing you a magical Birthday filled with endless joy, extraordinary spells, infinite happiness, and epic adventures! You are officially the most legendary wizard of our time! 🎉⚡✨
+                </div>
+            </div>
+
+            <div class="enclosure-section-title">📜 Official Hogwarts Enclosures & Attachments 📜</div>
+            <div class="photo-attachments-grid" id="letter-attachments-grid">
+                <!-- Rendered dynamically from config.js -->
+            </div>
+
+            <div class="letter-signature-box">
+                <div class="letter-signature">
+                    Yours sincerely,<br>
+                    <em>Minerva McGonagall & Albus Dumbledore</em>
+                </div>
+                <div class="letter-wax-seal">H</div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn-magical" onclick="celebrateFireworks()">Celebrate & Launch Fireworks 🎆</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Image Viewer Modal -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged View">
+        <div id="lightbox-caption" class="lightbox-caption">Caption</div>
+    </div>
+
+    <!-- Confetti Fireworks Overlay Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Game Logic Scripts -->
+    <script src="config.js"></script>
+    <script src="audio.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

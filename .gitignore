@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# Development
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Server files
+server.log
+nohup.out
+
+# Optional - uncomment if you don't want to include these
+# download_assets*.py
+# download_music.py

@@ -1,6 +1,6 @@
 # 🎂 Hogwarts Birthday Quest  
 
-A magical, interactive Harry Potter-themed birthday experience (Bauni Badmash, Leader of Bauni Samajh).
+A magical, interactive Harry Potter-themed birthday experience for  (Bauni Badmash, Leader of Bauni Samajh).
 
 ## 🎮 Game Overview
 
@@ -17,7 +17,7 @@ An immersive treasure hunt through 6 iconic Hogwarts locations where players col
 - 📸 Photo gallery with memories
 
 
-## 🎯 How to Play
+## 🎯 How to Play ( its not for you btw ) 
 
 1. Start the quest from the welcome screen
 2. Navigate between scenes using:
